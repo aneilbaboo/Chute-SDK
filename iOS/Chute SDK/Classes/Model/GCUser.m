@@ -46,7 +46,8 @@
         return NO;
     }
     
-    if ([[self objectID] intValue] == [[object objectID] intValue]) {
+    if ([object isKindOfClass:[GCUser class]] &&
+        [[self objectID] intValue] == [[(GCUser *)object objectID] intValue]) {
         return YES;
     }
     return NO;

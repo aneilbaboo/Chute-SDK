@@ -202,8 +202,8 @@ NSString * const GCAssetUploadComplete = @"GCAssetUploadComplete";
         ALAssetRepresentation *_representation = [[self alAsset] defaultRepresentation];
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            [[_representation url] absoluteString], @"filename", 
-                                           [NSString stringWithFormat:@"%d", [_representation size]], @"size", 
-                                           [NSString stringWithFormat:@"%d", [_representation size]], @"md5", 
+                                           [NSString stringWithFormat:@"%lld", [_representation size]], @"size",
+                                           [NSString stringWithFormat:@"%lld", [_representation size]], @"md5",
                                            nil];
         if([self objectID]){
             [dictionary setObject:[self objectID] forKey:@"id"];
@@ -413,8 +413,9 @@ inBackgroundWithCompletion:(void (^)(UIImage *))aResponseBlock {
     if (IS_NULL([self objectID]) || IS_NULL([object objectID])) {
         return NO;
     }
-    
-    if ([[self objectID] intValue] == [[object objectID] intValue]) {
+
+    if ([object isKindOfClass:[GCAsset class]] &&
+        [[self objectID] intValue] == [[(GCAsset *)object objectID] intValue]) {
         return YES;
     }
     return NO;
